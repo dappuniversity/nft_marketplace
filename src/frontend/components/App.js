@@ -4,10 +4,10 @@ import {
   Route
 } from "react-router-dom";
 import Navigation from './Navbar';
-import Home from '../pages/Home.js'
-import Create from '../pages/Create.js'
-import MyListedItems from '../pages/MyListedItems.js'
-import MyPurchases from '../pages/MyPurchases.js'
+import Home from './Home.js'
+import Create from './Create.js'
+import MyListedItems from './MyListedItems.js'
+import MyPurchases from './MyPurchases.js'
 import MarketplaceAbi from '../contractsData/Marketplace.json'
 import MarketplaceAddress from '../contractsData/Marketplace-address.json'
 import NFTAbi from '../contractsData/NFT.json'

@@ -23,8 +23,8 @@ describe("NFTMarketplace", function () {
     [deployer, addr1, addr2, ...addrs] = await ethers.getSigners();
 
     // To deploy our contracts
-    marketplace = await Marketplace.deploy(feePercent);
     nft = await NFT.deploy();
+    marketplace = await Marketplace.deploy(feePercent);
   });
 
   describe("Deployment", function () {
@@ -66,7 +66,7 @@ describe("NFTMarketplace", function () {
     beforeEach(async function () {
       // addr1 mints an nft
       await nft.connect(addr1).mint(URI)
-      // addr1 approves marketplace to spend tokens
+      // addr1 approves marketplace to spend nft
       await nft.connect(addr1).setApprovalForAll(marketplace.address, true)
     })
 
@@ -86,7 +86,7 @@ describe("NFTMarketplace", function () {
       expect(await nft.ownerOf(1)).to.equal(marketplace.address);
       // Item count should now equal 1
       expect(await marketplace.itemCount()).to.equal(1)
-      // Get item from items mapping then check it's fields ensure they are correct
+      // Get item from items mapping then check fields to ensure they are correct
       const item = await marketplace.items(1)
       expect(item.itemId).to.equal(1)
       expect(item.nft).to.equal(nft.address)
@@ -150,7 +150,7 @@ describe("NFTMarketplace", function () {
         marketplace.connect(addr2).purchaseItem(0, {value: totalPriceInWei})
       ).to.be.revertedWith("item doesn't exist");
       // Fails when not enough ether is paid with the transaction. 
-      // In this instance, fails when buyer only send enough ether to cover the price of the nft
+      // In this instance, fails when buyer only sends enough ether to cover the price of the nft
       // not the additional market fee.
       await expect(
         marketplace.connect(addr2).purchaseItem(1, {value: toWei(price)})
