@@ -49,6 +49,12 @@ contract Marketplace is ReentrancyGuard {
 
     // Make item to offer on the marketplace
     function makeItem(IERC721 _nft, uint _tokenId, uint _price) external nonReentrant {
+         require(_nft.ownerOf(_tokenId) == msg.sender, "not the token owner");
+         require(
+            _nft.isApprovedForAll(msg.sender, address(this)) || 
+            _nft.getApproved(_tokenId) == address(this),
+            "not approved for marketplace"
+        );
         require(_price > 0, "Price must be greater than zero");
         // increment itemCount
         itemCount ++;
